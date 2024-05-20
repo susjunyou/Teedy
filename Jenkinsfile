@@ -6,29 +6,10 @@ steps {
 sh 'mvn -B -DskipTests clean package'
 }
 }
-          stage('doc') {
-            steps {
-                sh 'mvn site --fail-never'
-                sh 'mvn javadoc:jar --fail-never'
-            }
-        }
-        stage('Test report') {
-            steps {
-                sh 'mvn test --fail-never'
-                sh 'mvn surefire-report:report'
-            }
-        }
-stage('pmd') {
+stage('K8s') {
 steps {
-sh 'mvn pmd:pmd'
+sh 'kubectl set image susjuny/teedy2024_manual container-name=079a60703b5acc700d64e7c2534e5b36791f0ae8a7f669a23b0918377a3fc0d4'
 }
-}
-}
-post {
-always {
-archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
-archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
 }
 }
 }
